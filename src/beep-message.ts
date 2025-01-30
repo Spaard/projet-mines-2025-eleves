@@ -6,6 +6,9 @@
 
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { formatDistanceToNow } from 'date-fns';
+import { fr } from 'date-fns/locale';
+import '@kor-ui/kor/components/card';
 
 /**
  * An example element.
@@ -43,16 +46,14 @@ export class BeepMessage extends LitElement {
 
   override render() {
     return html`
-        <div class="message">
-            <div class="message-body">
-                <h6 class="message-author">
-                    ${this.author} - ${this.date}
-                </h6>
-                <p class="message-content">${this.content}</p>
-                <span>${this.likes} likes</span>
-                <button @click=${this._toggleLike} class="message-link">${this.liked ? "❤️" : "♡"}</button>
-            </div>
-        </div>
+        <kor-card label="${this.author} - ${formatDistanceToNow(this.date, { addSuffix: true, locale: fr })}">
+          ${this.content}
+        
+          <div slot="footer">
+            <span>${this.likes} likes</span>
+            <button @click=${this._toggleLike} class="message-link">${this.liked ? "❤️" : "♡"}</button>
+          </div>
+        </kor-card>
     `;
   }
 
